@@ -13,6 +13,14 @@ console.log(enemyNames[0]);
 console.log(enemyNames[2]);
 
 
+// random numeric value generation
+var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+
+    return value;
+};
+
+
 // fight function (now with parameter for enemy's name)
 var fight = function(enemyName) {
     // repeat function if enemy is alive
@@ -30,16 +38,19 @@ var fight = function(enemyName) {
             if (confirmSkip) {
                 window.alert(playerName + " has decided to skip this fight. Goodbye!");
                 // skip penalty
-                playerMoney = playerMoney - 10;
+                playerMoney = Math.max(0, playerMoney - 10);
                 console.log("playerMoney", playerMoney);
                 break;
             }
           }
 
 
-
         //remove health = attack power
-        enemyHealth = enemyHealth - playerAttack;    
+        //random damage value based on playerAttack
+        var damage = randomNumber(playerAttack - 3, playerAttack);
+
+        enemyHealth = Math.max(0, enemyHealth - damage);   
+
         console.log(
             playerName + " attacked " + enemyName + ". " + enemyName + " now has " + enemyHealth + " health remaining "
         );       
@@ -59,7 +70,10 @@ var fight = function(enemyName) {
         }
     
         // remove health = attack power.
-        playerHealth = playerHealth - enemyAttack;
+        //random damage value based on enemyAttack
+        var damage = randomNumber(enemyAttack - 3, enemyAttack);
+
+        playerHealth = Math.max(0, playerHealth - damage);
         console.log(
             enemyName + " attacked " + playerName + ". " + playerName + " now has " + playerHealth + " health remaining. "
         );
@@ -95,7 +109,8 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
 
             // reset enemy health
-            enemyHealth = 50;
+            enemyHealth = randomNumber(40, 60);
+
 
             // debugger;
     
@@ -198,3 +213,5 @@ var shop = function() {
 
 // page load start game 
 startGame();
+
+
